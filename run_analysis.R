@@ -19,7 +19,7 @@ activity_labels_data <- read.table("./UCI HAR Dataset/activity_labels.txt",
                               col.names = c("activity", "activity_labels"))
 
 ################################################################################
-## Read train and test subject and combine
+## Read train and test subject and combine them
 subject_train_data <- read.table("./UCI HAR Dataset/train/subject_train.txt", 
                             header = FALSE, sep = "", col.names = "subject")
 
@@ -42,18 +42,18 @@ Y_test_data <- read.table("./UCI HAR Dataset/test/y_test.txt", header = FALSE,
 
 ################################################################################
 ## Combine X, subject and Y, then combine train and test to the full_data
-X <- rbind(X_train, X_test)
-Y <- rbind(Y_train, Y_test)
+X <- rbind(X_train_data, X_test_data)
+Y <- rbind(Y_train_data, Y_test_data)
 
 full_data <- cbind(X[, grep("mean|std", colnames(X))], 
                   Y, subject)
 
 ################################################################################
-## mean for each activity and each subject and create the new tidy data set
+## Calculate mean for each activity and each subject and create the new tidy data set
 library(plyr)
 final_data <- ddply(full_data, .(activity, subject), colwise(mean))
 final_data2 <- merge(activity_labels, final_data, by.x = "activity", 
                     by.y = "activity", all = TRUE)
 
-## Create the tidy data set
-write.table(final_data2[, -1], file ="finaldata.txt")
+## Write down the tidy data set.
+write.table(final_data2[, -1], file ="final_data.txt")
