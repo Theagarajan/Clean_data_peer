@@ -4,7 +4,7 @@ features <- read.table("./UCI HAR Dataset/features.txt",
                         stringsAsFactors = FALSE, 
                        col.names = c("item", "feature_label"))
 ################################################################################
-## Remove the - ,  ( and ) of feature_label
+## Remove the "-" "," "(" ")" of feature_label
 features$feature_label <- gsub(pattern = "-", replacement = "", 
                                x = features$feature_label, fixed = TRUE)
 features$feature_label <- gsub(pattern = "(", replacement = "", 
